@@ -61,16 +61,3 @@ def get_product_data(conn:Connection) -> list[Any]:
         product_dict['additional_image_link'] = [f'{BASE_URL}{image[0]}' for image in images]  # Append the images to the 'images' list
         product_data.append(product_dict)
     return product_data
-
-def run_db():
-    db_file = r'data.sqlite'
-    
-    # create db connection
-    conn = create_connection(db_file=db_file)
-    with conn:
-        product_data = get_product_data(conn=conn)
-        print(product_data[0])
-        print(len(product_data))
-
-if __name__ == '__main__':
-    run_db()
