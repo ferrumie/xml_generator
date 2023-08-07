@@ -1,18 +1,18 @@
-
 from xml.etree import cElementTree as ET
 from xml.sax.saxutils import unescape
 from constants import DB_FILE
 
 from database import create_connection, get_product_data
 
-def generate_xml_file()-> None:
-    """Generate XML file."""    
+
+def generate_xml_file() -> None:
+    """Generate XML file."""
     # create db connection
     conn = create_connection(db_file=DB_FILE)
     with conn:
         product_data = get_product_data(conn=conn)
 
-     # Create the root element of the XML feed using cElementTree
+    # Create the root element of the XML feed using cElementTree
     root = ET.Element('product')
     root.set('xmlns:g', 'http://base.google.com/ns/1.0')
     channel = ET.SubElement(root, 'channel')
@@ -35,6 +35,7 @@ def generate_xml_file()-> None:
     # Create the ElementTree and write it to a file named feed.xml using cElementTree
     tree = ET.ElementTree(root)
     tree.write('feed.xml', encoding='utf-8', xml_declaration=True)
+
 
 if __name__ == '__main__':
     generate_xml_file()

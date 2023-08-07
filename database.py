@@ -4,6 +4,7 @@ from typing import Any
 
 from constants import BASE_URL
 
+
 def create_connection(db_file: str) -> Connection | None:
     """
     Create db connection with the specified db.
@@ -16,7 +17,8 @@ def create_connection(db_file: str) -> Connection | None:
 
     return conn
 
-def get_product_data(conn:Connection) -> list[Any]:
+
+def get_product_data(conn: Connection) -> list[Any]:
     """."""
 
     cursor = conn.cursor()
@@ -29,7 +31,7 @@ def get_product_data(conn:Connection) -> list[Any]:
         LEFT JOIN manufacturer m ON p.manufacturer_id = m.manufacturer_id
         WHERE p.status = '1'
         '''
-    
+
     # SQL query to retrieve images for the current product sorted by sort_order
     image_query = '''
             SELECT image
@@ -53,11 +55,13 @@ def get_product_data(conn:Connection) -> list[Any]:
             'quantity': product[4],
             'price': product[5],
             'image_link': product[6],
-            'additional_image_link': [], # save as list
+            'additional_image_link': [],  # save as list
             'condition': 'new',
         }
         cursor.execute(image_query, (product[0],))
         images = cursor.fetchall()
-        product_dict['additional_image_link'] = [f'{BASE_URL}{image[0]}' for image in images]  # Append the images to the 'images' list
+        product_dict['additional_image_link'] = [
+            f'{BASE_URL}{image[0]}' for image in images
+        ]  # Append the images to the 'images' list
         product_data.append(product_dict)
     return product_data
